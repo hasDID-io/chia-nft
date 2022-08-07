@@ -6,9 +6,10 @@ Uses Apophysis color scheme: 113_rw_multi_colors_6
 
 ## Generate
 
-python gen.py -i scotopic;
-python gen.py -r scotopic;
-python gen.py -gm scotopic scotopic chia:did:wowza https://hasDID.io/assets/meta/scotopic.flam3
+NICKNAME="vital"
+python gen.py -i $NICKNAME;
+python gen.py -r $NICKNAME;
+python gen.py -gm $NICKNAME $NICKNAME chia:did:wowza https://hasDID.io/assets/meta/${NICKNAME}.flam3
 
 ## Setup
 
