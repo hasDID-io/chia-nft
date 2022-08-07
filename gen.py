@@ -14,22 +14,22 @@ OUTPUT_DIR="_generated"
 METADATA_LATEST_FILE_NAME="_latest_metadata.json"
 METADATA_LATEST_FILE_PATH=OUTPUT_DIR + "/" + METADATA_LATEST_FILE_NAME
 
-def get_new_nft_number():
-    
-    with open(METADATA_LATEST_FILE_PATH) as file1:
-        last_known_metadata = json.load(file1)
-    
-    token=last_known_metadata["fa"][0]["tokens"][0]
-    last_known_token_id = token["token_id"]
-    
-    new_nft_number = int(last_known_token_id) + 1
-    new_nft_number_string = str(new_nft_number).zfill(4)
-    return new_nft_number_string
+# def get_new_nft_number():
+#
+#     with open(METADATA_LATEST_FILE_PATH) as file1:
+#         last_known_metadata = json.load(file1)
+#
+#     token=last_known_metadata["fa"][0]["tokens"][0]
+#     last_known_token_id = token["token_id"]
+#
+#     new_nft_number = int(last_known_token_id) + 1
+#     new_nft_number_string = str(new_nft_number).zfill(4)
+#     return new_nft_number_string
 
 def render_images(nft_num_string):
     
-    os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.png qs=40 ss=4 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3;')
-    os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png qs=10 ss=2 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3')
+    # os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.png qs=40 ss=4 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3;')
+    os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png qs=20 ss=2 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3')
     os.system(f'open {OUTPUT_DIR}')
     
 def generate_nft(nft_num_string):
@@ -125,7 +125,6 @@ def generate_nft(nft_num_string):
     
     os.system(f'open {OUTPUT_DIR}')
 
-
 def get_args():
     
     parser = argparse.ArgumentParser(description='Generate FLAM3 artwork.')
@@ -155,9 +154,9 @@ async def main():
     elif ARGS.render_index:
         nft_num = ARGS.render_index[0]
         render_images(nft_num)
-    else:
-        nft_num_string = get_new_nft_number()
-        generate_nft(nft_num_string)
+    # else:
+    #     nft_num_string = get_new_nft_number()
+    #     generate_nft(nft_num_string)
         # render_images(nft_num_string)
 
 

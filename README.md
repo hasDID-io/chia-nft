@@ -2,6 +2,8 @@
 
 Generate and publish NFT to Chia blockchain.
 
+Uses Apophysis color scheme: 113_rw_multi_colors_6
+
 ## Generate
 
 python gen.py -r 0000
@@ -23,6 +25,7 @@ python3 -m venv nftvenv
 pip install -r requirements.txt
 mkdir _dep;pushd _dep;git clone https://github.com/scottdraves/flam3.git;pushd flam3;./configure;make;popd;popd;
 
+cp -f setup-apophysis/vidres.flam3 _dep/flam3/
 
 ### Activate environment
 . nftvenv/bin/activate
