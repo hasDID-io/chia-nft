@@ -6,17 +6,9 @@ Uses Apophysis color scheme: 113_rw_multi_colors_6
 
 ## Generate
 
-python gen.py -r 0000
-
-NFTNUM=0000;NFTNAME=hasDID;env out=_generated/${NFTNAME}-${NFTNUM}.png _dep/flam3/flam3-render < _generated/${NFTNAME}-${NFTNUM}.flam3
-
-for num in {01..24}
-do
-   NFTNUM=$(printf "%04d" $num);
-   python gen.py -r $NFTNUM;
-   sleep 1;
-done
-
+python gen.py -i scotopic;
+python gen.py -r scotopic;
+python gen.py -gm scotopic scotopic chia:did:wowza https://hasDID.io/assets/meta/scotopic.flam3
 
 ## Setup
 

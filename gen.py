@@ -8,7 +8,7 @@ import sys
 # import xml.etree.ElementTree as ET
 import defusedxml.ElementTree as ET
 
-PROJECT_NAME="hasdid"
+PROJECT_NAME=""
 FLAM3_DIR="_dep/flam3"
 OUTPUT_DIR="_generated"
 METADATA_LATEST_FILE_NAME="_latest_metadata.json"
@@ -26,16 +26,16 @@ METADATA_LATEST_FILE_PATH=OUTPUT_DIR + "/" + METADATA_LATEST_FILE_NAME
 #     new_nft_number_string = str(new_nft_number).zfill(4)
 #     return new_nft_number_string
 
-def render_images(nft_num_string):
+def render_images(file_name):
     
     # os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.png qs=40 ss=4 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3;')
-    os.system(f'env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png qs=20 ss=2 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3')
+    os.system(f'env out={OUTPUT_DIR}/{file_name}.png qs=20 ss=2 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{file_name}.flam3')
     os.system(f'open {OUTPUT_DIR}')
     
-def generate_nft(nft_num_string):
+def generate_nft(file_name):
     
-    nft_num = nft_num_string
-    file_name = f"{OUTPUT_DIR}/{PROJECT_NAME}-{nft_num}"
+    # nft_num = nft_num_string
+    file_name = f"{OUTPUT_DIR}/{file_name}"
     output_flam3 = f"{file_name}.flam3"
     output_png = f"{file_name}.png"
     
@@ -125,9 +125,9 @@ def generate_nft(nft_num_string):
     
     os.system(f'open {OUTPUT_DIR}')
 
-def add_text(text_display_on_bottom):
+def add_text(text_display_on_bottom, file_name):
     # env out={OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png qs=20 ss=2 {FLAM3_DIR}/flam3-render < {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}.flam3
-    os.system(f'convert {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png -undercolor black -gravity south -fill gray -pointsize 16 -annotate +0+10 "{text_display_on_bottom}" {OUTPUT_DIR}/{PROJECT_NAME}-{nft_num_string}-social.png')
+    os.system(f'convert {OUTPUT_DIR}/{file_name}.png -undercolor black -gravity south -fill gray -pointsize 16 -annotate +0+10 "{text_display_on_bottom}" {OUTPUT_DIR}/{file_name}.png')
 
 def add_years(d, years):
     """Return a date that's `years` years after the date (or datetime)
@@ -220,7 +220,7 @@ def gen_nft_metadata(nickname, twitter_handle, chia_did, nft_image_src_url):
       }
     }
     
-    fname = "0000.json"
+    fname = f"{nickname}.json"
     with open(f"{OUTPUT_DIR}/" + fname, 'w') as outfile:
         json.dump(meta, outfile, sort_keys=False, indent=4)
 
@@ -236,10 +236,10 @@ def get_args():
     
     parser = argparse.ArgumentParser(description='Generate FLAM3 artwork.')
     
-    parser.add_argument('-m', '--generate-loop', action='store_true', required=False, help='Generate art continuously + increment the numbers')
-    parser.add_argument('-i', '--generate-index', metavar="NFTNUM", nargs="+", required=False, help='Index of art piece to generate')
-    parser.add_argument('-r', '--render-index', metavar="NFTNUM", nargs="+", required=False, help='Index of art piece to render')
-    parser.add_argument('-gm', '--generate-metadata', metavar=('NICKNAME', 'TWITTER_HANDLE', 'CHIA_DID', 'NFT_IMAGE_SRC_URL'), nargs=4, required=True, help='Generate NFT metadata.')
+    # parser.add_argument('-m', '--generate-loop', action='store_true', required=False, help='Generate art continuously + increment the numbers')
+    parser.add_argument('-i', '--generate-index', metavar="NICKNAME", nargs="+", required=False, help='Index of art piece to generate')
+    parser.add_argument('-r', '--render-index', metavar="NICKNAME", nargs="+", required=False, help='Index of art piece to render')
+    parser.add_argument('-gm', '--generate-metadata', metavar=('NICKNAME', 'TWITTER_HANDLE', 'CHIA_DID', 'NFT_IMAGE_SRC_URL'), nargs=4, required=False, help='Generate NFT metadata.')
     
     if len(sys.argv) < 2:
         # parser.print_usage()
@@ -252,14 +252,16 @@ ARGS = get_args()
 
 async def main():
     
-    if ARGS.generate_loop:
-        print('todo')
-    elif ARGS.generate_index:
-        nft_num = ARGS.generate_index[0]
-        generate_nft(nft_num)
+    # if ARGS.generate_loop:
+    #     print('todo')
+    if ARGS.generate_index:
+        nickname = ARGS.generate_index[0]
+        generate_nft(nickname)
+        add_text(f"{nickname}.hasDID.io", nickname)
     elif ARGS.render_index:
-        nft_num = ARGS.render_index[0]
-        render_images(nft_num)
+        nickname = ARGS.render_index[0]
+        render_images(nickname)
+        add_text(f"{nickname}.hasDID.io", nickname)
     elif ARGS.generate_metadata:
         nickname = ARGS.generate_metadata[0]
         twitter_profile = ARGS.generate_metadata[1]
