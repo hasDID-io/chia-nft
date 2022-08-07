@@ -27,5 +27,8 @@ mkdir _dep;pushd _dep;git clone https://github.com/scottdraves/flam3.git;pushd f
 
 cp -f setup-apophysis/vidres.flam3 _dep/flam3/
 
+
 ### Activate environment
 . nftvenv/bin/activate
+
+
